@@ -1,6 +1,6 @@
 lexer grammar PoolLexer;
 
-
+/*
 tokens{
 	ERROR,
 	TYPEID,
@@ -45,6 +45,7 @@ tokens{
 	ISVOID,
 	NOT
 }
+*/
 
 @lexer::members{
 
@@ -231,11 +232,8 @@ AND         : 'and' ;
 OR          : 'or' ;
 NULL 		: 'NULL' ;
 
-/*
- Boolean should have first character in lower case
-*/
-
 BOOL_CONST  : 'true' | 'false' ;
+
 
 /*
  Access specifiers
@@ -243,6 +241,7 @@ BOOL_CONST  : 'true' | 'false' ;
 
 PRIVATE    : 'private' ;
 PUBLIC     : 'public' ;
+
 
 /*
  Exception handling and other
@@ -255,11 +254,9 @@ RAISE      : 'raise' ;
 BREAK      : 'break' ;
 CONTINUE   : 'continue' ;
 LAMBDA     : 'lambda' ;
-
 IMPORT     : 'import' ;
 ALIAS      : 'alias' ;
 RETURN     : 'return' ;
-
 
 INT_CONST  : [0-9]+ ;
 FLOAT_CONST: [0-9]+['.'][0-9]+ ;
@@ -297,7 +294,7 @@ ST_COMMENT  : '(#' ->skip, pushMode(COMMENT_MODE1) ;
  Unmatched character
 */
 
-ERROR  : . {processCharacter();} ;
+INCOR_CHAR  : . {processCharacter();} ;
 
 /*
  For multi line nested comments
