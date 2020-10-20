@@ -1,6 +1,6 @@
 lexer grammar PoolLexer;
 
-/*
+
 tokens{
 	ERROR,
 	TYPEID,
@@ -45,7 +45,7 @@ tokens{
 	ISVOID,
 	NOT
 }
-*/
+
 
 @lexer::members{
 
@@ -294,7 +294,7 @@ ST_COMMENT  : '(#' ->skip, pushMode(COMMENT_MODE1) ;
  Unmatched character
 */
 
-INCOR_CHAR  : . {processCharacter();} ;
+ERROR  : . {processCharacter();} ;
 
 /*
  For multi line nested comments
