@@ -46,8 +46,6 @@ tokens{
 	NOT
 }
 
-
-
 @lexer::members{
 
 	/*
@@ -198,6 +196,12 @@ GE          : '>=';
 /*ASSIGN      : '<-';*/
 ASSIGN      : ':=';
 POWER       : '**';
+MUL_ASSIGN  : '*=';
+DIV_ASSIGN 	: '/=';
+ADD_ASSIGN  : '+=';
+SUB_ASSIGN	: '-=';
+AND_ASSIGN	: '&=';
+OR_ASSIGN	: '|=';
 
 /*
  Bit operators
@@ -217,19 +221,15 @@ IF          : 'if' ;
 ELIF        : 'elif' ;
 IN          : 'in' ;
 INHERITS    : 'inherits' ;
-LET         : 'let' ;
-/*LOOP        : ('L'|'l')('O'|'o')('O'|'o')('P'|'p') ;
-THEN        : ('T'|'t')('H'|'h')('E'|'e')('N'|'n') ;*/
 FOR         : 'for' ;
 WHILE       : 'while' ;
-CASE        : 'case' ;
-ESAC        : 'esac' ;
-OF          : 'of' ;
 NEW         : 'new' ;
-ISVOID      : 'isvoid' ;
+//ISVOID      : 'isvoid' ;
+VOID 		: 'void' ;
 NOT         : 'not' ;
 AND         : 'and' ;
 OR          : 'or' ;
+NULL 		: 'NULL' ;
 
 /*
  Boolean should have first character in lower case
