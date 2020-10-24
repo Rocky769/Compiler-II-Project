@@ -203,6 +203,8 @@ ADD_ASSIGN  : '+=';
 SUB_ASSIGN	: '-=';
 AND_ASSIGN	: '&=';
 OR_ASSIGN	: '|=';
+INCRE_OP	: '++';
+DECRE_OP	: '--';
 
 /*
  Bit operators
