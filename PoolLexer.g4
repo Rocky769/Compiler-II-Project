@@ -1,6 +1,6 @@
 lexer grammar PoolLexer;
 
-/*
+
 tokens{
 	ERROR,
 	TYPEID,
@@ -45,7 +45,6 @@ tokens{
 	ISVOID,
 	NOT
 }
-*/
 
 
 @lexer::members{
@@ -198,6 +197,14 @@ GE          : '>=';
 /*ASSIGN      : '<-';*/
 ASSIGN      : ':=';
 POWER       : '**';
+MUL_ASSIGN  : '*=';
+DIV_ASSIGN 	: '/=';
+ADD_ASSIGN  : '+=';
+SUB_ASSIGN	: '-=';
+AND_ASSIGN	: '&=';
+OR_ASSIGN	: '|=';
+INCRE_OP	: '++';
+DECRE_OP	: '--';
 
 /*
  Bit operators
@@ -208,58 +215,50 @@ BITOR      : '|';
 BITXOR     : '^';
 
 /*
- Case Insensitive Keywords
+ Case sensitive Keywords
 */
 
-CLASS       : ('C'|'c')('L'|'l')('A'|'a')('S'|'s')('S'|'s') ;
-ELSE        : ('E'|'e')('L'|'l')('S'|'s')('E'|'e') ;
-IF          : ('I'|'i')('F'|'f') ;
-ELIF        : ('E'|'e')('L'|'l')('I'|'i')('F'|'f') ;
-IN          : ('I'|'i')('N'|'n') ;
-INHERITS    : ('I'|'i')('N'|'n')('H'|'h')('E'|'e')('R'|'r')('I'|'i')('T'|'t')('S'|'s') ;
-LET         : ('L'|'l')('E'|'e')('T'|'t') ;
-/*LOOP        : ('L'|'l')('O'|'o')('O'|'o')('P'|'p') ;
-THEN        : ('T'|'t')('H'|'h')('E'|'e')('N'|'n') ;*/
-FOR         : ('F'|'f')('O'|'o')('R'|'r') ;
-WHILE       : ('W'|'w')('H'|'h')('I'|'i')('L'|'l')('E'|'e') ;
-CASE        : ('C'|'c')('A'|'a')('S'|'s')('E'|'e') ;
-ESAC        : ('E'|'e')('S'|'s')('A'|'a')('C'|'c') ;
-OF          : ('O'|'o')('F'|'f') ;
-NEW         : ('N'|'n')('E'|'e')('W'|'w') ;
-ISVOID      : ('I'|'i')('S'|'s')('V'|'v')('O'|'o')('I'|'i')('D'|'d') ;
-NOT         : ('N'|'n')('O'|'o')('T'|'t') ;
-AND         : ('A'|'a')('N'|'n')('D'|'d') ;
-OR          : ('O'|'o')('R'|'r') ;
+CLASS       : 'class' ;
+ELSE        : 'else' ;
+IF          : 'if' ;
+ELIF        : 'elif' ;
+IN          : 'in' ;
+INHERITS    : 'inherits' ;
+FOR         : 'for' ;
+WHILE       : 'while' ;
+NEW         : 'new' ;
+//ISVOID      : 'isvoid' ;
+VOID 		: 'void' ;
+NOT         : 'not' ;
+AND         : 'and' ;
+OR          : 'or' ;
+NULL 		: 'NULL' ;
 
-/*
- Boolean should have first character in lower case
-*/
+BOOL_CONST  : 'true' | 'false' ;
 
-BOOL_CONST  : 't'('R'|'r')('U'|'u')('E'|'e') | 'f'('A'|'a')('L'|'l')('S'|'s')('E'|'e') ;
 
 /*
  Access specifiers
 */
 
-PRIVATE    : 'p'('R'|'r')('I'|'i')('V'|'v')('A'|'a')('T'|'t')('E'|'e') ;
-PUBLIC     : 'p'('U'|'u')('B'|'b')('L'|'l')('I'|'i')('C'|'c') ;
+PRIVATE    : 'private' ;
+PUBLIC     : 'public' ;
+
 
 /*
  Exception handling and other
 */
 
-SELF       : 's'('E'|'e')('L'|'l')('F'|'f') ;
-TRY        : 't'('R'|'r')('Y'|'y') ;
-EXCEPT     : 'e'('X'|'x')('C'|'c')('E'|'e')('P'|'p')('T'|'t') ;
-RAISE      : 'r'('A'|'a')('I'|'i')('S'|'s')('E'|'e') ;
-BREAK      : 'b'('R'|'r')('E'|'e')('A'|'a')('K'|'k') ;
-CONTINUE   : 'c'('O'|'o')('N'|'n')('T'|'t')('I'|'i')('N'|'n')('U'|'u')('E'|'e') ;
-LAMBDA     : 'l'('A'|'a')('M'|'m')('B'|'b')('D'|'d')('A'|'a') ;
-
-IMPORT     : 'i'('M'|'m')('P'|'p')('O'|'o')('R'|'r')('T'|'t') ;
-ALIAS      : 'a'('L'|'l')('I'|'i')('A'|'a')('S'|'s') ;
-RETURN     : 'r'('E'|'e')('T'|'t')('U'|'u')('R'|'r')('N'|'n') ;
-
+SELF       : 'self' ;
+TRY        : 'try' ;
+EXCEPT     : 'except' ;
+RAISE      : 'raise' ;
+BREAK      : 'break' ;
+CONTINUE   : 'continue' ;
+LAMBDA     : 'lambda' ;
+IMPORT     : 'import' ;
+ALIAS      : 'alias' ;
+RETURN     : 'return' ;
 
 INT_CONST  : [0-9]+ ;
 FLOAT_CONST: [0-9]+['.'][0-9]+ ;
@@ -297,7 +296,7 @@ ST_COMMENT  : '(#' ->skip, pushMode(COMMENT_MODE1) ;
  Unmatched character
 */
 
-INCOR_CHAR  : . {processCharacter();} ;
+ERROR  : . {processCharacter();} ;
 
 /*
  For multi line nested comments
