@@ -1,11 +1,13 @@
 parser grammar PoolParser;
 options { tokenVocab=PoolLexer; }
 
-/*
-program : test assignexpression test EOF
+
+/*program : test assignexpression test EOF
 		| test EOF
 		| expression SEMICOLON EOF
 		;*/
+
+
 
 program : (import_stat | classblock)+;
 
@@ -18,12 +20,18 @@ inClass : (classblock | attribute | method)+;//what about private public?
 attribute : TYPEID OBJECTID (ASSIGN expression)? (COMMA OBJECTID (ASSIGN expression)?)* SEMICOLON;
 //Int a := 5, b := 7; 
 
-method : (TYPEID | VOID) OBJECTID LPAREN parameters RPAREN LBRACE inMethod RBRACE SEMICOLON;
+
+method : (TYPEID | VOID) OBJECTID (LPAREN RPAREN | LPAREN parameters RPAREN)  LBRACE inMethod RBRACE SEMICOLON;
+
 
 parameters : TYPEID OBJECTID (COMMA TYPEID OBJECTID)* ;
 
 inMethod : attribute* statements ;
 
+
+expression : 
+
+statements : 
 
 
 
