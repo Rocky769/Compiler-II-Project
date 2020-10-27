@@ -192,17 +192,25 @@ RBRACE      : '}' ;
 LSQUARE     : '[' ;
 RSQUARE     : ']' ;
 DOT         : '.' ;
+MOD 	    : '%' ;
 LE          : '<=';
 GE          : '>=';
 /*ASSIGN      : '<-';*/
+
+LSHIFT      : '<<'; //added
+RSHIFT      : '>>'; //added
 ASSIGN      : ':=';
 POWER       : '**';
 MUL_ASSIGN  : '*=';
 DIV_ASSIGN 	: '/=';
 ADD_ASSIGN  : '+=';
 SUB_ASSIGN	: '-=';
+MOD_ASSIGN  : '%='; //added
 AND_ASSIGN	: '&=';
 OR_ASSIGN	: '|=';
+XOR_ASSIGN  : '^='; //added
+LSHIFT_ASSIGN : '<<='; //added
+RSHIFT_ASSIGN : '>>='; //added
 INCRE_OP	: '++';
 DECRE_OP	: '--';
 
@@ -257,7 +265,8 @@ BREAK      : 'break' ;
 CONTINUE   : 'continue' ;
 LAMBDA     : 'lambda' ;
 IMPORT     : 'import' ;
-ALIAS      : 'alias' ;
+USING	   : 'using' ;
+AS 		   : 'as' ;
 RETURN     : 'return' ;
 
 INT_CONST  : [0-9]+ ;
@@ -286,7 +295,7 @@ EOF_STR   : '"'NONEND*'\\'?(EOF) {processString();} ;
  Comment Section
 */
 
-LINE_COMMENT: ('--'~('\n')*'\n' | '--'~('\n')*(EOF)) -> skip ;
+LINE_COMMENT: ('#'~('\n')*'\n' | '#'~('\n')*(EOF)) -> skip ;
 END_COMMENT : '#)' {reportError("Unmatched #)");} ;
 UN_COMMENT  : '#)' EOF {reportError("Unmatched #)");} ;
 NON_COMMENT : '(#' EOF {reportError("EOF in comment");} ;
