@@ -235,6 +235,7 @@ INHERITS    : 'inherits' ;
 FOR         : 'for' ;
 WHILE       : 'while' ;
 NEW         : 'new' ;
+DELETE      : 'del';
 //ISVOID      : 'isvoid' ;
 VOID 		: 'void' ;
 NOT         : 'not' ;
@@ -266,7 +267,7 @@ CONTINUE   : 'continue' ;
 LAMBDA     : 'lambda' ;
 IMPORT     : 'import' ;
 USING	   : 'using' ;
-AS 		   : 'as' ;
+AS         : 'as' ;
 RETURN     : 'return' ;
 
 INT_CONST  : [0-9]+ ;
