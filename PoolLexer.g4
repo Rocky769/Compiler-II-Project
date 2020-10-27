@@ -192,6 +192,7 @@ RBRACE      : '}' ;
 LSQUARE     : '[' ;
 RSQUARE     : ']' ;
 DOT         : '.' ;
+MOD 	    : '%' ;
 LE          : '<=';
 GE          : '>=';
 /*ASSIGN      : '<-';*/
@@ -294,7 +295,7 @@ EOF_STR   : '"'NONEND*'\\'?(EOF) {processString();} ;
  Comment Section
 */
 
-LINE_COMMENT: ('--'~('\n')*'\n' | '--'~('\n')*(EOF)) -> skip ;
+LINE_COMMENT: ('#'~('\n')*'\n' | '#'~('\n')*(EOF)) -> skip ;
 END_COMMENT : '#)' {reportError("Unmatched #)");} ;
 UN_COMMENT  : '#)' EOF {reportError("Unmatched #)");} ;
 NON_COMMENT : '(#' EOF {reportError("EOF in comment");} ;

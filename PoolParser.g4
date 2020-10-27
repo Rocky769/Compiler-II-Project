@@ -17,7 +17,7 @@ alias_stat : USING (TYPEID | OBJECTID) AS (TYPEID | OBJECTID);
 
 classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
 
-inClass : (classblock | attribute | method)+;//what about private public?
+inClass : ( attribute | method)+;//what about private public?
 
 attribute : TYPEID OBJECTID (ASSIGN expression)? (COMMA OBJECTID (ASSIGN expression)?)* SEMICOLON;
 //Int a := 5, b := 7; 
@@ -28,7 +28,7 @@ method : (TYPEID | VOID) OBJECTID (LPAREN RPAREN | LPAREN parameters RPAREN)  LB
 
 parameters : TYPEID OBJECTID (COMMA TYPEID OBJECTID)* ;
 
-inMethod : attribute* statements ;
+inMethod : (attribute | statement)* ;
 
 //attributes :
 /**COOL GRAMMAR
@@ -68,29 +68,27 @@ expression
 
 //statements : 
 statement:
-	(
-		expressionStatement
-		| compoundStatement
-		| selectionStatement
-		| iterationStatement
-		| jumpStatement
-		| tryBlock
-	)
-	| declarationStatement;
+	expressionStatement
+	| compoundStatement
+	| selectionStatement
+	| iterationStatement
+	| jumpStatement
+	| tryBlock
+	;
 
 expressionStatement: expression? SEMICOLON;
 
-compoundStatement: LBRACE statementSeq? RBRACE;
+compoundStatement: LBRACE statementSeq? RBRACE ;
 
 statementSeq: statement+;
 
 //Selection statement
-selectionstatement:
-	IF LPAREN expression RPAREN compoundStatement (ELIF LPAREN expression RPAREN compoundStatement)* (ELSE compoundStatement)?;
+selectionStatement:
+	IF LPAREN expression RPAREN compoundStatement (ELIF LPAREN expression RPAREN compoundStatement)* (ELSE compoundStatement)? SEMICOLON;
 //iteration statement
 iterationStatement:
-	WHILE LPAREN logical_or_expr RPAREN statement
-	| FOR LPAREN ( expressionStatement  condition? SEMICOLON expression? ) RPAREN statement;
+	WHILE LPAREN logical_or_expr RPAREN compoundStatement SEMICOLON 
+	| FOR LPAREN ( expressionStatement  expression? SEMICOLON expression? ) RPAREN compoundStatement SEMICOLON ;
 
 
 //jump block
@@ -99,7 +97,7 @@ jumpStatement:
 
 
 //try block
-tryBlock: TRY compoundStatement EXCEPT compoundStatement;
+tryBlock: TRY compoundStatement EXCEPT compoundStatement SEMICOLON;
 
 
 //declaration statement
@@ -140,20 +138,17 @@ unary_expr : primary_expr
 
 postfix_expr : primary_expr
 			 | postfix_expr LSQUARE expression RSQUARE
-			 | postfix_expr // write argument assignment list 
+			 | postfix_expr LPAREN (assignment_expr (COMMA assignment_expr)*)? RPAREN
 			 | postfix_expr DOT OBJECTID
 			 | postfix_expr INCRE_OP
-			 | postfix_expr DECRE_OP
+			 | postfix_expr DECRE_OP;
 
 unary_operator : PLUS | MINUS | NOT | STAR | BITAND;
 
-primary_expr 	: OBJECTID
-				| num 
-				| STR_CONST
+primary_expr 	: OBJECTID | INT_CONST | FLOAT_CONST | STR_CONST | BOOL_CONST
 				| LPAREN expression RPAREN
 				;
 
-num :	INT_CONST | FLOAT_CONST; 
 
 
 logical_or_expr : logical_and_expr
