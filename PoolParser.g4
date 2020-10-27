@@ -8,9 +8,11 @@ options { tokenVocab=PoolLexer; }
 
 
 
-program : (import_stat | classblock)+;
+program : (import_stat | alias_stat | classblock)+;
 
-import_stat : IMPORT (TYPEID | OBJECTID) SEMICOLON;
+import_stat : IMPORT (TYPEID | OBJECTID) (AS OBJECTID)? SEMICOLON;
+
+alias_stat : USING (TYPEID | OBJECTID) AS (TYPEID | OBJECTID);
 
 classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
 
@@ -100,6 +102,7 @@ and_expr : equality_expr
 
 equality_expr 	: relational_expr
 				| equality_expr EQUALS relational_expr
+				| equality_expr TEQUALS relational_expr //changed
 				| equality_expr NOTEQUAL relational_expr
 				;
 
