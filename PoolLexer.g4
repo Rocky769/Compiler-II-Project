@@ -195,14 +195,21 @@ DOT         : '.' ;
 LE          : '<=';
 GE          : '>=';
 /*ASSIGN      : '<-';*/
+
+LSHIFT      : '<<'; //added
+RSHIFT      : '>>'; //added
 ASSIGN      : ':=';
 POWER       : '**';
 MUL_ASSIGN  : '*=';
 DIV_ASSIGN 	: '/=';
 ADD_ASSIGN  : '+=';
 SUB_ASSIGN	: '-=';
+MOD_ASSIGN  : '%='; //added
 AND_ASSIGN	: '&=';
 OR_ASSIGN	: '|=';
+XOR_ASSIGN  : '^='; //added
+LSHIFT_ASSIGN : '<<='; //added
+RSHIFT_ASSIGN : '>>='; //added
 INCRE_OP	: '++';
 DECRE_OP	: '--';
 
