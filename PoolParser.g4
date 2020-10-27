@@ -28,8 +28,81 @@ parameters : TYPEID OBJECTID (COMMA TYPEID OBJECTID)* ;
 
 inMethod : attribute* statements ;
 
+//attributes :
+/**COOL GRAMMAR
+inClass : insideClass* ;
+insideClass
+   : TYPEID OBJECTID '(' (formal (',' formal)*)? ')'  '{' (expression SEMICOLON)* '}' SEMICOLON # method
+   | TYPEID OBJECTID (ASSIGN expression)? SEMICOLON # property
+   ;
+
+formal
+   : TYPEID OBJECTID 
+   ;
+// method argument 
+   
+   
+expression
+   : expression ('@' TYPEID)? '.' OBJECTID '(' (expression (',' expression)*)? ')' # methodCall
+   | OBJECTID '(' (expression (',' expression)*)? ')' # ownMethodCall
+   | IF expression THEN expression ELSE expression FI # if
+   | WHILE expression LOOP expression POOL # while
+   | 
+   | 
+   | NEW TYPEID # new
+   | INTEGER_NEGATIVE expression # negative
+   | 
+   | 
+   | relational_expr
+   | NOT expression # boolNot
+   | '(' expression ')' # parentheses
+   | OBJECTID # id
+   | INT # int
+   | STRING # string
+   | TRUE # true
+   | FALSE # false
+   | OBJECTID ASSIGNMENT expression # assignment
+   ;*/
 
 //statements : 
+statement:
+	(
+		expressionStatement
+		| compoundStatement
+		| selectionStatement
+		| iterationStatement
+		| jumpStatement
+		| tryBlock
+	)
+	| declarationStatement;
+
+expressionStatement: expression? SEMICOLON;
+
+compoundStatement: LBRACE statementSeq? RBRACE;
+
+statementSeq: statement+;
+
+//Selection statement
+selectionstatement:
+	IF LPAREN expression RPAREN compoundStatement
+	| IF LPAREN expression RPAREN compoundStatement (ELIF LPAREN expression RPAREN compoundStatement)* (ELSE compoundStatement)?;
+//iteration statement
+iterationStatement:
+	WHILE LPAREN logical_or_expr RPAREN statement
+	| FOR LPAREN ( expressionStatement  condition? SEMICOLON expression? ) RPAREN statement;
+
+
+//jump block
+jumpStatement:
+	(BREAK | CONTINUE | RETURN (expression )? ) SEMICOLON;
+
+
+//try block
+tryBlock: TRY compoundStatement EXCEPT compoundStatement;
+
+
+//declaration statement
+
 
 
 
@@ -75,10 +148,11 @@ unary_operator : PLUS | MINUS | NOT | STAR | BITAND;
 
 primary_expr 	: OBJECTID
 				| num 
+				| STR_CONST
 				| LPAREN expression RPAREN
 				;
 
-num :	INT_CONST | FLOAT_CONST; //what about char const and string 
+num :	INT_CONST | FLOAT_CONST; 
 
 
 logical_or_expr : logical_and_expr
@@ -103,6 +177,7 @@ and_expr : equality_expr
 
 equality_expr 	: relational_expr
 				| equality_expr EQUALS relational_expr
+				| equality_expr TEQUALS relational_expr
 				| equality_expr NOTEQUAL relational_expr
 				;
 
