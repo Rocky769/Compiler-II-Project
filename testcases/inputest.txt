@@ -1,0 +1,30 @@
+#a += b, b = 13, krishna or prashanth, prashanth++ ;
+
+class Main {
+	Int a := 10;
+	public Int fullerene(Int a, Int b, Int c)
+	{
+		Int x ;
+		x := a*b+c, y:= a-b/c;
+		#Int p := (new IO)
+
+		while(not x = y)
+		{ func(a,b); };
+
+		if(true)
+		{
+			if(false)
+			{
+				x := a*a*a;
+			}
+			else
+			{
+				y := b*b*b;
+			};
+		}
+		elif(x != y)
+		{
+			return false;
+		};
+	};
+};

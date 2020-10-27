@@ -17,13 +17,14 @@ alias_stat : USING (TYPEID | OBJECTID) AS (TYPEID | OBJECTID);
 
 classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
 
-inClass : ( attribute | method)+;//what about private public?
+inClass : (access_specifier? attribute | method)+;
 
 attribute : TYPEID OBJECTID (ASSIGN expression)? (COMMA OBJECTID (ASSIGN expression)?)* SEMICOLON;
 //Int a := 5, b := 7; 
 
+access_specifier : PUBLIC | PRIVATE;
 
-method : (TYPEID | VOID) OBJECTID (LPAREN RPAREN | LPAREN parameters RPAREN)  LBRACE inMethod RBRACE SEMICOLON;
+method : access_specifier (TYPEID | VOID) OBJECTID (LPAREN RPAREN | LPAREN parameters RPAREN)  LBRACE inMethod RBRACE SEMICOLON;
 
 
 parameters : TYPEID OBJECTID (COMMA TYPEID OBJECTID)* ;
