@@ -84,8 +84,7 @@ statementSeq: statement+;
 
 //Selection statement
 selectionstatement:
-	IF LPAREN expression RPAREN compoundStatement
-	| IF LPAREN expression RPAREN compoundStatement (ELIF LPAREN expression RPAREN compoundStatement)* (ELSE compoundStatement)?;
+	IF LPAREN expression RPAREN compoundStatement (ELIF LPAREN expression RPAREN compoundStatement)* (ELSE compoundStatement)?;
 //iteration statement
 iterationStatement:
 	WHILE LPAREN logical_or_expr RPAREN statement

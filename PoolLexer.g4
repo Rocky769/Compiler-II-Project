@@ -264,7 +264,8 @@ BREAK      : 'break' ;
 CONTINUE   : 'continue' ;
 LAMBDA     : 'lambda' ;
 IMPORT     : 'import' ;
-ALIAS      : 'alias' ;
+USING	   : 'using' ;
+AS 		   : 'as' ;
 RETURN     : 'return' ;
 
 INT_CONST  : [0-9]+ ;
