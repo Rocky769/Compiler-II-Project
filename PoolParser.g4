@@ -94,11 +94,11 @@ iterationStatement:
 
 //jump block
 jumpStatement:
-	(BREAK | CONTINUE | RETURN (expression )? ) SEMICOLON;
+	(BREAK | CONTINUE | RETURN (expression | SELF)? ) SEMICOLON;  //added
 
 
 //try block
-tryBlock: TRY compoundStatement EXCEPT compoundStatement SEMICOLON;
+tryBlock: TRY compoundStatement EXCEPT LPAREN (TYPEID OBJECTID)? RPAREN compoundStatement SEMICOLON;   //added,review needed
 
 
 //declaration statement
@@ -142,7 +142,9 @@ postfix_expr : primary_expr
 			 | postfix_expr LPAREN (assignment_expr (COMMA assignment_expr)*)? RPAREN
 			 | postfix_expr DOT OBJECTID
 			 | postfix_expr INCRE_OP
-			 | postfix_expr DECRE_OP;
+			 | postfix_expr DECRE_OP
+             | RAISE LPAREN OBJECTID RPAREN  //added, review needed
+             ;
 
 unary_operator : PLUS | MINUS | NOT | STAR | BITAND;
 
@@ -199,5 +201,6 @@ mult_expr : unary_expr
 		| mult_expr STAR unary_expr
 		| mult_expr SLASH unary_expr
 		| mult_expr MOD unary_expr
+        | mult_expr POWER unary_expr   //added
 		;
 
