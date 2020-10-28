@@ -1,1 +1,28 @@
 import IO as io
+(#
+	PROGRAM-6.
+	Incorrect Program
+#)
+
+class Main{
+	public void main(){
+		String a := "abde\n";
+		String b := "bcde\n";
+		compare(a,b);
+	};
+	public void comapre(String a,String b){
+    	Int n := b.length();
+    for(Int i:=0;i<n;i++)
+    {
+        if(b[i]>a[i])
+        {
+            return true;
+        }
+       else if(b[i]<a[i])
+        {
+            return false;
+        }
+        else continue;
+    }
+	};
+};
