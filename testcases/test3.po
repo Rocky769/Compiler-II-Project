@@ -1,1 +1,45 @@
-import IO as io
+(#
+	# PROGRAM - 3.
+	# This Program checks whether the given number is armstrong number or not.
+	# An armstrong number is a number whose sum of cubes of its digits is equal to that number itself.
+	# eg: 371 = 27+343+1;
+#)
+
+class Check {
+	public Int sum, temp, a;												# variable declaration
+
+	public Bool is_armstrong(Int n){     									# method to check a number is armstrong or not
+		temp := n, sum := 0;
+ 
+		while (not(n==0)) {
+			a := n%10;
+			sum := sum+(a*a*a);
+			n := n/10;
+		};
+
+		if (sum == temp) {
+			return true;
+		}
+		else {
+			return false;
+		};
+
+	};
+};
+
+
+class Main inherits Check{
+
+	private Bool main(){
+		
+		Int num := 371;
+
+		if((is_armstrong(num)) = 1) {								# calling method
+			return true;				                            # if it returns true then it is armstrong
+		}
+		else{
+			return false;                               			# else it is not
+		};
+	};
+
+};

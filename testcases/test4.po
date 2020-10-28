@@ -1,0 +1,19 @@
+(#
+	# PROGRAM - 4.
+	# This Program is to check try except block.
+#)
+
+class Main {
+	private void main(){
+		Int x := -1;
+		try {
+			if (x<0){
+				raise (x);
+			};
+		}
+		except (Int x){
+			x := x**2;
+		};
+		return;
+	};
+};

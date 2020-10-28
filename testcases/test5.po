@@ -1,0 +1,21 @@
+(#
+	PROGRAM - 5.
+	Sample Program to reverse a string
+#)
+
+class Main {
+	public void main(){
+		String str := "I am a Student\n";
+		reverseStr(str);
+	};
+
+	public void reverseStr(String s){
+		Int n := s.length();
+		
+		for (Int i:=n-1; i >= 0; i--){
+			print(s[i]); 
+		};
+
+		return;
+	};
+};
