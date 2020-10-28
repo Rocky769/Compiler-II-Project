@@ -42,5 +42,7 @@ as well as shows the GUI representation of parse tree as a picture.
 
 The running of script stops after closing the gui.
 
-	$make clean removes all the .class, .tokens, and .java files generated.
+removes all the .class, .tokens, and .java files generated:
+
+	$make clean 
 
