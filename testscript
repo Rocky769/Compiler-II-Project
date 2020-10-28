@@ -3,5 +3,4 @@ export CLASSPATH=".:/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH"
 java -cp "/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH" org.antlr.v4.Tool $1*.g4
 javac $1*.java
 java org.antlr.v4.runtime.misc.TestRig $1 $2 -tokens -tree -gui $3
-rm $1*.class $1*.java $1*.tokens
 
