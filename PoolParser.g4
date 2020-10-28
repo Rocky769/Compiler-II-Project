@@ -2,11 +2,6 @@ parser grammar PoolParser;
 options { tokenVocab=PoolLexer; }
 
 
-/*program : test assignexpression test EOF
-		| test EOF
-		| expression SEMICOLON EOF
-		;*/
-
 
 
 program : (import_stat | alias_stat | classblock)+;
@@ -20,7 +15,6 @@ classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
 inClass : (access_specifier? attribute | method)+;
 
 attribute : TYPEID OBJECTID (ASSIGN expression)? (COMMA OBJECTID (ASSIGN expression)?)* SEMICOLON;
-//Int a := 5, b := 7; 
 
 access_specifier : PUBLIC | PRIVATE;
 
@@ -31,43 +25,7 @@ parameters : TYPEID OBJECTID (COMMA TYPEID OBJECTID)* ;
 
 inMethod : (attribute | statement)* ;
 
-//attributes :
-/**COOL GRAMMAR
-inClass : insideClass* ;
-insideClass
-   : TYPEID OBJECTID '(' (formal (',' formal)*)? ')'  '{' (expression SEMICOLON)* '}' SEMICOLON # method
-   | TYPEID OBJECTID (ASSIGN expression)? SEMICOLON # property
-   ;
 
-formal
-   : TYPEID OBJECTID 
-   ;
-// method argument 
-   
-   
-expression
-   : expression ('@' TYPEID)? '.' OBJECTID '(' (expression (',' expression)*)? ')' # methodCall
-   | OBJECTID '(' (expression (',' expression)*)? ')' # ownMethodCall
-   | IF expression THEN expression ELSE expression FI # if
-   | WHILE expression LOOP expression POOL # while
-   | 
-   | 
-   | NEW TYPEID # new
-   | INTEGER_NEGATIVE expression # negative
-   | 
-   | 
-   | relational_expr
-   | NOT expression # boolNot
-   | '(' expression ')' # parentheses
-   | OBJECTID # id
-   | INT # int
-   | STRING # string
-   | TRUE # true
-   | FALSE # false
-   | OBJECTID ASSIGNMENT expression # assignment
-   ;*/
-
-//statements : 
 statement:
 	expressionStatement
 	| compoundStatement
@@ -86,6 +44,7 @@ statementSeq: statement+;
 //Selection statement
 selectionStatement:
 	IF LPAREN expression RPAREN compoundStatement (ELIF LPAREN expression RPAREN compoundStatement)* (ELSE compoundStatement)? SEMICOLON;
+
 //iteration statement
 iterationStatement:
 	WHILE LPAREN logical_or_expr RPAREN compoundStatement SEMICOLON 
@@ -94,24 +53,18 @@ iterationStatement:
 
 //jump block
 jumpStatement:
-	(BREAK | CONTINUE | RETURN (expression | SELF)? ) SEMICOLON;  //added
+	(BREAK | CONTINUE | RETURN (expression | SELF)? ) SEMICOLON;
 
 
 //try block
-tryBlock: TRY compoundStatement EXCEPT LPAREN (TYPEID OBJECTID)? RPAREN compoundStatement SEMICOLON;   //added,review needed
-
-
-//declaration statement
-
+tryBlock: TRY compoundStatement EXCEPT LPAREN (TYPEID OBJECTID)? RPAREN compoundStatement SEMICOLON;
 
 
 
 assignexpression : OBJECTID ASSIGN OBJECTID;
 	
 test 	: 	CLASS LPAREN OBJECTID RPAREN;
-/*
-declaration= 
-TYPEID OBJECTID [ assignment ]; */
+
 
 expression  : assignment_expr
 			| expression COMMA assignment_expr
@@ -143,7 +96,7 @@ postfix_expr : primary_expr
 			 | postfix_expr DOT OBJECTID
 			 | postfix_expr INCRE_OP
 			 | postfix_expr DECRE_OP
-             | RAISE LPAREN OBJECTID RPAREN  //added, review needed
+             | RAISE LPAREN OBJECTID RPAREN
              ;
 
 unary_operator : PLUS | MINUS | NOT | STAR | BITAND;
@@ -151,7 +104,6 @@ unary_operator : PLUS | MINUS | NOT | STAR | BITAND;
 primary_expr 	: OBJECTID | INT_CONST | FLOAT_CONST | STR_CONST | BOOL_CONST
 				| LPAREN expression RPAREN
 				;
-
 
 
 logical_or_expr : logical_and_expr
@@ -178,6 +130,7 @@ equality_expr 	: relational_expr
 				| equality_expr EQUALS relational_expr
 				| equality_expr TEQUALS relational_expr
 				| equality_expr NOTEQUAL relational_expr
+                | equality_expr NOT_TEQUAL relational_expr
 				;
 
 relational_expr : shift_expr
@@ -201,6 +154,6 @@ mult_expr : unary_expr
 		| mult_expr STAR unary_expr
 		| mult_expr SLASH unary_expr
 		| mult_expr MOD unary_expr
-        | mult_expr POWER unary_expr   //added
+        | mult_expr POWER unary_expr
 		;
 
