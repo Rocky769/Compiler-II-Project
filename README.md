@@ -45,4 +45,6 @@ The running of script stops after closing the gui.
 removes all the .class, .tokens, and .java files generated:
 
 	$make clean 
-
+	
+If any syntax errors occur,the inbuilt ANTLR itself raises the error and is reflected in AST.
+If no syntax error occurs,No error is shown.
