@@ -89,7 +89,7 @@ selectionStatement:
 //iteration statement
 iterationStatement:
 	WHILE LPAREN logical_or_expr RPAREN compoundStatement SEMICOLON 
-	| FOR LPAREN ( expressionStatement  expression? SEMICOLON expression? ) RPAREN compoundStatement SEMICOLON ;
+	| FOR LPAREN (expressionStatement | attribute) expression SEMICOLON expression? RPAREN compoundStatement SEMICOLON ;
 
 
 //jump block
