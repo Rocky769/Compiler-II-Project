@@ -187,6 +187,7 @@ GT          : '>' ;
 TEQUALS     : '==';
 EQUALS      : '=' ;
 NOTEQUAL    : '!=';
+NOT_TEQUAL  : '!==';
 LBRACE      : '{' ;
 RBRACE      : '}' ;
 LSQUARE     : '[' ;
@@ -195,22 +196,20 @@ DOT         : '.' ;
 MOD 	    : '%' ;
 LE          : '<=';
 GE          : '>=';
-/*ASSIGN      : '<-';*/
-
-LSHIFT      : '<<'; //added
-RSHIFT      : '>>'; //added
+LSHIFT      : '<<';
+RSHIFT      : '>>';
 ASSIGN      : ':=';
 POWER       : '**';
 MUL_ASSIGN  : '*=';
 DIV_ASSIGN 	: '/=';
 ADD_ASSIGN  : '+=';
 SUB_ASSIGN	: '-=';
-MOD_ASSIGN  : '%='; //added
+MOD_ASSIGN  : '%=';
 AND_ASSIGN	: '&=';
 OR_ASSIGN	: '|=';
-XOR_ASSIGN  : '^='; //added
-LSHIFT_ASSIGN : '<<='; //added
-RSHIFT_ASSIGN : '>>='; //added
+XOR_ASSIGN  : '^=';
+LSHIFT_ASSIGN : '<<=';
+RSHIFT_ASSIGN : '>>=';
 INCRE_OP	: '++';
 DECRE_OP	: '--';
 
@@ -236,7 +235,6 @@ FOR         : 'for' ;
 WHILE       : 'while' ;
 NEW         : 'new' ;
 DELETE      : 'del';
-//ISVOID      : 'isvoid' ;
 VOID 		: 'void' ;
 NOT         : 'not' ;
 AND         : 'and' ;
