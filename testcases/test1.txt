@@ -1,0 +1,21 @@
+class Main{
+	Int a := 5, x, y := 10 ;
+
+	Float k ;
+	Bool t := true ;
+
+	for (Int i := 0; i < 10 and t; i++)
+	{
+		x := i**a ;
+		k := a/y ;
+
+		if(y**3 < x)
+		{
+			t := false ;
+			continue;
+		};
+
+		k := k*a;
+
+	};
+}
