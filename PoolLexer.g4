@@ -4,6 +4,7 @@ lexer grammar PoolLexer;
 tokens{
 	ERROR,
 	TYPEID,
+	CLASS_ID,
 	OBJECTID,
 	BOOL_CONST,
 	INT_CONST,
@@ -24,7 +25,7 @@ tokens{
 	LBRACE,
 	RBRACE,
 	DOT,
-	DARROW,
+	PTR_OP,
 	LE,
 	ASSIGN,
 	CLASS,
@@ -139,7 +140,7 @@ tokens{
 			}
 			/*
 			 If string size gets past the limit,we dont care for remaining string
-			*/ 
+			*/
 			ftext = buffer.toString();
 			if(ftext.length() > 1024) {
 				reportError("String constant too long");
@@ -171,7 +172,7 @@ tokens{
 */
 
 SEMICOLON   : ';';
-DARROW      : '=>';
+PTR_OP      : '=>';
 LPAREN      : '(' ;
 RPAREN      : ')' ;
 COLON       : ':' ;
@@ -193,7 +194,7 @@ RBRACE      : '}' ;
 LSQUARE     : '[' ;
 RSQUARE     : ']' ;
 DOT         : '.' ;
-MOD 	    : '%' ;
+MOD 	      : '%' ;
 LE          : '<=';
 GE          : '>=';
 LSHIFT      : '<<';
@@ -270,8 +271,9 @@ RETURN     : 'return' ;
 
 INT_CONST  : [0-9]+ ;
 FLOAT_CONST: [0-9]+['.'][0-9]+ ;
-TYPEID     : [A-Z][a-z|A-Z|0-9|_]* ;
 OBJECTID   : [a-z][a-z|A-Z|0-9|_]* ;
+TYPEID     : 'Int' | 'Char' | 'Void' | 'Double' | 'Bool' | CLASS_ID ;
+CLASS_ID   : [A-Z][a-z|A-Z|0-9|_]*;
 
 /*
  Skipping all spaces, newlines, tabs
@@ -283,7 +285,7 @@ WS         : [ \r\t\n\f\b\u000b]+ -> skip ;
  To manage different types of string bodies
 */
 
-fragment NONEND : (~('\n' | '"' | '\\') | ('\\'.)) ;      
+fragment NONEND : (~('\n' | '"' | '\\') | ('\\'.)) ;
 PER_STR   : '"'NONEND*'"' {processString();} ;
 NONTER_STR: '"'NONEND*'\n' {processString();} ;
 ERR_ST    : '"'(EOF) {reportError("EOF in string constant");} ;

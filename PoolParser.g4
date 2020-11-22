@@ -28,6 +28,7 @@ inMethod : (attribute | statement)* ;
 
 statement:
 	expressionStatement
+	| attribute
 	| compoundStatement
 	| selectionStatement
 	| iterationStatement
@@ -47,7 +48,7 @@ selectionStatement:
 
 //iteration statement
 iterationStatement:
-	WHILE LPAREN logical_or_expr RPAREN compoundStatement SEMICOLON 
+	WHILE LPAREN logical_or_expr RPAREN compoundStatement SEMICOLON
 	| FOR LPAREN (expressionStatement | attribute) expression SEMICOLON expression? RPAREN compoundStatement SEMICOLON ;
 
 
@@ -62,7 +63,7 @@ tryBlock: TRY compoundStatement EXCEPT LPAREN (TYPEID OBJECTID)? RPAREN compound
 
 
 assignexpression : OBJECTID ASSIGN OBJECTID;
-	
+
 test 	: 	CLASS LPAREN OBJECTID RPAREN;
 
 
@@ -108,7 +109,7 @@ primary_expr 	: OBJECTID | INT_CONST | FLOAT_CONST | STR_CONST | BOOL_CONST
 
 logical_or_expr : logical_and_expr
 				| logical_or_expr OR logical_and_expr
-				; 
+				;
 
 logical_and_expr: or_expr
 				| logical_and_expr AND or_expr
@@ -123,21 +124,21 @@ xor_expr : and_expr
 		 ;
 
 and_expr : equality_expr
-		 | and_expr BITAND equality_expr
+		 			| and_expr BITAND equality_expr
 		 ;
 
 equality_expr 	: relational_expr
-				| equality_expr EQUALS relational_expr
-				| equality_expr TEQUALS relational_expr
-				| equality_expr NOTEQUAL relational_expr
-                | equality_expr NOT_TEQUAL relational_expr
+								| equality_expr EQUALS relational_expr
+								| equality_expr TEQUALS relational_expr
+								| equality_expr NOTEQUAL relational_expr
+        				| equality_expr NOT_TEQUAL relational_expr
 				;
 
 relational_expr : shift_expr
-				| relational_expr LT shift_expr
-				| relational_expr GT shift_expr
-				| relational_expr LE shift_expr
-				| relational_expr GE shift_expr
+								| relational_expr LT shift_expr
+								| relational_expr GT shift_expr
+								| relational_expr LE shift_expr
+								| relational_expr GE shift_expr
 				;
 
 shift_expr  : add_expr
@@ -156,4 +157,3 @@ mult_expr : unary_expr
 		| mult_expr MOD unary_expr
         | mult_expr POWER unary_expr
 		;
-
