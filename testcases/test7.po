@@ -1,0 +1,53 @@
+class Change{
+	public Int a[26],b[26],count=0,flag=1;
+	public Bool can_change(String s1,String s2,Int n,Int k)
+	{
+	 	Int l1 := s1.length();
+	 	Int l2 := s2.length();
+	 	for (Int i:=0; i < l1; i++){
+			a[s1[i]-'a']++; 
+		};
+		for (Int i:=0; i < l2; i++){
+			b[s1[i]-'a']++; 
+		};
+		for (Int i:=0; i < 26 and flag; i++){
+			Int diff := a[i]-b[i];
+			if(diff % k != 0){
+				flag := 0;
+				continue;
+			};
+			if(i==25 and diff>0){
+				flag := 0;
+				continue;
+			};
+			count += diff/k;
+			if(count<0){
+				flag := 0;
+				continue;
+			};
+		};
+		if(count != 0 or flag==0){
+			return false;
+		}
+		else{
+			return true;
+		};
+	};
+
+};
+
+class Main inherits Change{
+	public void main(){
+		Int n:= 6,k := 2;
+		String s1 := "abbcd";
+		String s2 := "cccee";
+		if((can_change(s1,s2,n,k))=1){
+			print("yes");
+		}
+		else{
+			print("no");
+		};
+	};
+};
+
+		
