@@ -12,9 +12,104 @@ alias_stat : USING (TYPEID | OBJECTID) AS (TYPEID | OBJECTID);
 
 classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
 
-inClass : (access_specifier? attribute | method)+;
+inClass : (access_specifier? declaration | method)+;
 
-attribute : TYPEID OBJECTID (ASSIGN expression)? (COMMA OBJECTID (ASSIGN expression)?)* SEMICOLON;
+
+declaration: TYPEID init_declarator_list ';'
+	;
+
+declaration_list : declaration+ ;
+
+
+init_declarator_list
+	: init_declarator
+	| init_declarator_list ',' init_declarator
+	;
+
+init_declarator
+	: declarator
+	| declarator ASSIGN initializer
+	;
+
+initializer
+	: assignment_expr
+	| '{' initializer_list '}'
+	;
+
+initializer_list
+	: initializer
+	| initializer_list ',' initializer
+	;
+
+
+declarator
+	: pointer direct_declarator
+	| direct_declarator
+	;
+
+direct_declarator
+	: OBJECTID
+	| '(' declarator ')'
+	| direct_declarator '[' const_expr? ']'
+	| direct_declarator '(' (parameter_list | identifier_list)? ')'
+	;
+
+pointer
+	: '*'
+	| '*' pointer
+	;
+
+
+parameter_list
+	: parameter_declaration
+	| parameter_list ',' parameter_declaration
+	;
+
+parameter_declaration
+	: TYPEID declarator
+	| TYPEID abstract_declarator
+	| TYPEID
+	;
+
+identifier_list
+	: OBJECTID
+	| identifier_list ',' OBJECTID
+	;
+
+type_name
+	: TYPEID
+	| TYPEID abstract_declarator
+	;
+
+
+abstract_declarator
+	: pointer
+	| direct_abstract_declarator
+	| pointer direct_abstract_declarator
+	;
+
+direct_abstract_declarator
+	: '(' abstract_declarator ')'
+	| '[' const_expr? ']'
+	| direct_abstract_declarator '[' const_expr? ']'
+	| '(' parameter_list? ')'
+	| direct_abstract_declarator '(' parameter_list? ')'
+	;
+/*
+function_definition
+	: TYPEID declarator declaration_list compound_statement
+	| TYPEID declarator compound_statement
+	| declarator declaration_list compound_statement
+	| declarator compound_statement
+	;
+*/
+
+
+
+
+
+
+
 
 access_specifier : PUBLIC | PRIVATE;
 
@@ -23,12 +118,11 @@ method : access_specifier (TYPEID | VOID) OBJECTID (LPAREN RPAREN | LPAREN param
 
 parameters : TYPEID OBJECTID (COMMA TYPEID OBJECTID)* ;
 
-inMethod : (attribute | statement)* ;
+inMethod : (declaration | statement)* ;
 
 
 statement:
 	expressionStatement
-	| attribute
 	| compoundStatement
 	| selectionStatement
 	| iterationStatement
@@ -38,7 +132,7 @@ statement:
 
 expressionStatement: expression? SEMICOLON;
 
-compoundStatement: LBRACE statementSeq? RBRACE ;
+compoundStatement: LBRACE  declaration_list? statementSeq? RBRACE ;
 
 statementSeq: statement+;
 
@@ -49,7 +143,7 @@ selectionStatement:
 //iteration statement
 iterationStatement:
 	WHILE LPAREN logical_or_expr RPAREN compoundStatement SEMICOLON
-	| FOR LPAREN (expressionStatement | attribute) expression SEMICOLON expression? RPAREN compoundStatement SEMICOLON ;
+	| FOR LPAREN (expressionStatement | declaration) expression SEMICOLON expression? RPAREN compoundStatement SEMICOLON ;
 
 
 //jump block
@@ -85,10 +179,9 @@ assign_op :
 const_expr : logical_or_expr
 		   ;
 
-unary_expr : primary_expr
-			| unary_operator unary_expr
-			| postfix_expr
+unary_expr : postfix_expr
 			| (INCRE_OP | DECRE_OP) unary_expr
+			| unary_operator cast_expr
 			;
 
 postfix_expr : primary_expr
@@ -151,9 +244,13 @@ add_expr : mult_expr
 			| add_expr MINUS mult_expr
 			;
 
-mult_expr : unary_expr
-		| mult_expr STAR unary_expr
-		| mult_expr SLASH unary_expr
-		| mult_expr MOD unary_expr
-        | mult_expr POWER unary_expr
+mult_expr : cast_expr
+		| mult_expr STAR cast_expr
+		| mult_expr SLASH cast_expr
+		| mult_expr MOD cast_expr
+        | mult_expr POWER cast_expr
 		;
+cast_expr
+	: unary_expr
+	| '(' type_name ')' cast_expr
+	;

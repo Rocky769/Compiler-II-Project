@@ -1,14 +1,14 @@
 class Change{
-	public Int a[26],b[26],count=0,flag=1;
+	public Int a[26],b[26],count:=0,flag:=1;
 	public Bool can_change(String s1,String s2,Int n,Int k)
 	{
 	 	Int l1 := s1.length();
 	 	Int l2 := s2.length();
 	 	for (Int i:=0; i < l1; i++){
-			a[s1[i]-'a']++; 
+			a[s1[i]-"a"]++; 
 		};
 		for (Int i:=0; i < l2; i++){
-			b[s1[i]-'a']++; 
+			b[s1[i]-"a"]++; 
 		};
 		for (Int i:=0; i < 26 and flag; i++){
 			Int diff := a[i]-b[i];
