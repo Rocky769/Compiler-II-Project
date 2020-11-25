@@ -15,7 +15,7 @@ classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
 inClass : (access_specifier? declaration | method)+;
 
 
-declaration: TYPEID init_declarator_list ';'
+declaration: TYPEID init_declarator_list SEMICOLON
 	;
 
 declaration_list : declaration+ ;
@@ -23,7 +23,7 @@ declaration_list : declaration+ ;
 
 init_declarator_list
 	: init_declarator
-	| init_declarator_list ',' init_declarator
+	| init_declarator_list COMMA init_declarator
 	;
 
 init_declarator
@@ -33,12 +33,12 @@ init_declarator
 
 initializer
 	: assignment_expr
-	| '{' initializer_list '}'
+	| LBRACE initializer_list RBRACE
 	;
 
 initializer_list
 	: initializer
-	| initializer_list ',' initializer
+	| initializer_list COMMA initializer
 	;
 
 
@@ -49,20 +49,20 @@ declarator
 
 direct_declarator
 	: OBJECTID
-	| '(' declarator ')'
-	| direct_declarator '[' const_expr? ']'
-	| direct_declarator '(' (parameter_list | identifier_list)? ')'
+	| LPAREN declarator RPAREN
+	| direct_declarator LSQUARE const_expr? RSQUARE
+	| direct_declarator LPAREN (parameter_list | identifier_list)? RPAREN
 	;
 
 pointer
-	: '*'
-	| '*' pointer
+	: STAR
+	| STAR pointer
 	;
 
 
 parameter_list
 	: parameter_declaration
-	| parameter_list ',' parameter_declaration
+	| parameter_list COMMA parameter_declaration
 	;
 
 parameter_declaration
@@ -73,7 +73,7 @@ parameter_declaration
 
 identifier_list
 	: OBJECTID
-	| identifier_list ',' OBJECTID
+	| identifier_list COMMA OBJECTID
 	;
 
 type_name
@@ -89,11 +89,11 @@ abstract_declarator
 	;
 
 direct_abstract_declarator
-	: '(' abstract_declarator ')'
-	| '[' const_expr? ']'
-	| direct_abstract_declarator '[' const_expr? ']'
-	| '(' parameter_list? ')'
-	| direct_abstract_declarator '(' parameter_list? ')'
+	: LPAREN abstract_declarator RPAREN
+	| LSQUARE const_expr? RSQUARE
+	| direct_abstract_declarator LSQUARE const_expr? RSQUARE
+	| LPAREN parameter_list? RPAREN
+	| direct_abstract_declarator LPAREN parameter_list? RPAREN
 	;
 /*
 function_definition
@@ -252,5 +252,5 @@ mult_expr : cast_expr
 		;
 cast_expr
 	: unary_expr
-	| '(' type_name ')' cast_expr
+	| LPAREN type_name RPAREN cast_expr
 	;
