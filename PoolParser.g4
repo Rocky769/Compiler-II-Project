@@ -195,7 +195,7 @@ postfix_expr : primary_expr
 
 unary_operator : PLUS | MINUS | NOT | STAR | BITAND;
 
-primary_expr 	: OBJECTID | INT_CONST | FLOAT_CONST | STR_CONST | BOOL_CONST
+primary_expr 	: OBJECTID | INT_CONST | FLOAT_CONST | STR_CONST | BOOL_CONST | CHAR_CONST
 				| LPAREN expression RPAREN
 				;
 

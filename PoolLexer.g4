@@ -270,10 +270,11 @@ AS         : 'as' ;
 RETURN     : 'return' ;
 
 INT_CONST  : [0-9]+ ;
-FLOAT_CONST: [0-9]+['.'][0-9]+ ;
-OBJECTID   : [a-z][a-z|A-Z|0-9|_]* ;
+FLOAT_CONST: [0-9]+ '.' [0-9]+ ;
+CHAR_CONST : '\''~('\n'|'\t')'\'';
+OBJECTID   : [a-z][_a-zA-Z0-9]* ;
 TYPEID     : 'Int' | 'Char' | 'Void' | 'Double' | 'Bool' | CLASS_ID ;
-CLASS_ID   : [A-Z][a-z|A-Z|0-9|_]*;
+CLASS_ID   : [A-Z][_a-zA-Z0-9]*;
 
 /*
  Skipping all spaces, newlines, tabs
