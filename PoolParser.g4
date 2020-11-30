@@ -95,14 +95,9 @@ direct_abstract_declarator
 	| LPAREN parameter_list? RPAREN
 	| direct_abstract_declarator LPAREN parameter_list? RPAREN
 	;
-/*
-function_definition
-	: TYPEID declarator declaration_list compound_statement
-	| TYPEID declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
-	;
-*/
+
+
+
 
 
 
@@ -179,9 +174,17 @@ assign_op :
 const_expr : logical_or_expr
 		   ;
 
+new_expr :
+	NEW TYPEID (LSQUARE const_expr RSQUARE)? (LPAREN initializer_list? RPAREN)? ;
+
+del_expr:
+	DELETE (LSQUARE RSQUARE)? cast_expr;
+
 unary_expr : postfix_expr
 			| (INCRE_OP | DECRE_OP) unary_expr
 			| unary_operator cast_expr
+			| new_expr
+			| del_expr
 			;
 
 postfix_expr : primary_expr
