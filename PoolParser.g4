@@ -2,8 +2,6 @@ parser grammar PoolParser;
 options { tokenVocab=PoolLexer; }
 
 
-
-
 program : (import_stat | alias_stat | classblock)+;
 
 import_stat : IMPORT (TYPEID | OBJECTID) (AS OBJECTID)? SEMICOLON;
@@ -14,12 +12,9 @@ classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
 
 inClass : (access_specifier? declaration | method)+;
 
-
-declaration: TYPEID init_declarator_list SEMICOLON
-	;
+declaration: TYPEID init_declarator_list SEMICOLON ;
 
 declaration_list : declaration+ ;
-
 
 init_declarator_list
 	: init_declarator
@@ -41,7 +36,6 @@ initializer_list
 	| initializer_list COMMA initializer
 	;
 
-
 declarator
 	: pointer direct_declarator
 	| direct_declarator
@@ -58,7 +52,6 @@ pointer
 	: STAR
 	| STAR pointer
 	;
-
 
 parameter_list
 	: parameter_declaration
@@ -81,7 +74,6 @@ type_name
 	| TYPEID abstract_declarator
 	;
 
-
 abstract_declarator
 	: pointer
 	| direct_abstract_declarator
@@ -96,25 +88,13 @@ direct_abstract_declarator
 	| direct_abstract_declarator LPAREN parameter_list? RPAREN
 	;
 
-
-
-
-
-
-
-
-
-
-
 access_specifier : PUBLIC | PRIVATE;
 
 method : access_specifier (TYPEID | VOID) OBJECTID (LPAREN RPAREN | LPAREN parameters RPAREN)  LBRACE inMethod RBRACE SEMICOLON;
 
-
 parameters : TYPEID OBJECTID (COMMA TYPEID OBJECTID)* ;
 
 inMethod : (declaration | statement)* ;
-
 
 statement:
 	expressionStatement
@@ -140,21 +120,12 @@ iterationStatement:
 	WHILE LPAREN logical_or_expr RPAREN compoundStatement SEMICOLON
 	| FOR LPAREN (expressionStatement | declaration) expression SEMICOLON expression? RPAREN compoundStatement SEMICOLON ;
 
-
 //jump block
 jumpStatement:
 	(BREAK | CONTINUE | RETURN (expression | SELF)? ) SEMICOLON;
 
-
 //try block
 tryBlock: TRY compoundStatement EXCEPT LPAREN (TYPEID OBJECTID)? RPAREN compoundStatement SEMICOLON;
-
-
-
-assignexpression : OBJECTID ASSIGN OBJECTID;
-
-test 	: 	CLASS LPAREN OBJECTID RPAREN;
-
 
 expression  : assignment_expr
 			| expression COMMA assignment_expr
@@ -171,8 +142,7 @@ assign_op :
 		| LSHIFT_ASSIGN | RSHIFT_ASSIGN
 		;
 
-const_expr : logical_or_expr
-		   ;
+const_expr : logical_or_expr ;
 
 new_expr :
 	NEW TYPEID (LSQUARE const_expr RSQUARE)? (LPAREN initializer_list? RPAREN)? ;
@@ -202,7 +172,6 @@ primary_expr 	: OBJECTID | INT_CONST | FLOAT_CONST | STR_CONST | BOOL_CONST | CH
 				| LPAREN expression RPAREN
 				;
 
-
 logical_or_expr : logical_and_expr
 				| logical_or_expr OR logical_and_expr
 				;
@@ -220,21 +189,21 @@ xor_expr : and_expr
 		 ;
 
 and_expr : equality_expr
-		 			| and_expr BITAND equality_expr
+		 | and_expr BITAND equality_expr
 		 ;
 
 equality_expr 	: relational_expr
-								| equality_expr EQUALS relational_expr
-								| equality_expr TEQUALS relational_expr
-								| equality_expr NOTEQUAL relational_expr
-        				| equality_expr NOT_TEQUAL relational_expr
+				| equality_expr EQUALS relational_expr
+				| equality_expr TEQUALS relational_expr
+				| equality_expr NOTEQUAL relational_expr
+        		| equality_expr NOT_TEQUAL relational_expr
 				;
 
 relational_expr : shift_expr
-								| relational_expr LT shift_expr
-								| relational_expr GT shift_expr
-								| relational_expr LE shift_expr
-								| relational_expr GE shift_expr
+				| relational_expr LT shift_expr
+				| relational_expr GT shift_expr
+				| relational_expr LE shift_expr
+				| relational_expr GE shift_expr
 				;
 
 shift_expr  : add_expr
@@ -242,18 +211,17 @@ shift_expr  : add_expr
 			| shift_expr RSHIFT add_expr
 			;
 
-add_expr : mult_expr
+add_expr 	: mult_expr
 			| add_expr PLUS mult_expr
 			| add_expr MINUS mult_expr
 			;
 
-mult_expr : cast_expr
-		| mult_expr STAR cast_expr
-		| mult_expr SLASH cast_expr
-		| mult_expr MOD cast_expr
-        | mult_expr POWER cast_expr
-		;
-cast_expr
-	: unary_expr
-	| LPAREN type_name RPAREN cast_expr
-	;
+mult_expr 	: cast_expr
+			| mult_expr STAR cast_expr
+			| mult_expr SLASH cast_expr
+			| mult_expr MOD cast_expr
+        	| mult_expr POWER cast_expr
+			;
+cast_expr 	: unary_expr
+			| LPAREN type_name RPAREN cast_expr
+			;
