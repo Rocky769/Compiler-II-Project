@@ -117,4 +117,23 @@ public class ASTPool{
     }
   }
 
+  public static class inClass extends ASTNode{
+      public List<access_specifier> specifiers;
+      public List<declaration> declarations;
+      public List<method> methods;
+
+      public program(List<access_specifier> a, List<declarartion> dec,List<method> me,int l){
+        specifiers=a;
+        declarations=dec;
+        methods=me;
+        lineNo=l;
+      }
+      String getString(String space){
+      String str = "";
+      return str;// to be changed
+    }
+      public void accept(Visitor visitor) {
+          visitor.visit(this);
+      }
+  }
 }
