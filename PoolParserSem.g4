@@ -29,7 +29,7 @@ locals [ArrayList<AST.import_stat> a;
 		 | alias=alias_stat{$b.add($alias.value);if($temp_line_no==-1){$temp_line_no=$alias.value.get(0).lineNo;}})*
 		 (cl=classblock{$c.add($cl.value);if($temp_line_no==-1){$temp_line_no=$cl.value.get(0).lineNo;}})+{
 		 		$value= new AST.program($cl.value, $imp.value, $alias.value, $temp_line_no);
-		 }
+		 };
 
 import_stat returns [AST.import_stat value]
 locals [String obj_alias, lib;
@@ -38,7 +38,7 @@ locals [String obj_alias, lib;
 	$obj_alias = "";
 	$lib = "";
 }
-: IMPORT ( tp=TYPEID { $lib = tp.getText();if($temp_line_no==-1){$temp_line_no=$tp.value.get(0).lineNo;};}
+: IMPORT ( tp=TYPEID { $lib = tp.getText();if($temp_line_no==-1){$temp_line_no=$tp.value.get(0).lineNo;}}
 		| ob=OBJECTID {$lib = ob.getText();if($temp_line_no==-1){$temp_line_no=$ob.value.get(0).lineNo;}}) 	 
 		(AS obj=OBJECTID{ $obj_alias = obj.getText(); })? 
 		SEMICOLON
@@ -57,8 +57,8 @@ locals [String obj_alias, obj;
 	$obj_alias = "";
 	$obj = "";
 }
-: USING (tp1 = TYPEID { $obj = tp1.getText();if($temp_line_no==-1){$temp_line_no=$tp1.value.get(0).lineNo;};}
-		| ob1 = OBJECTID { $obj = ob1.getText();if($temp_line_no==-1){$temp_line_no=$ob1.value.get(0).lineNo;};}
+: USING (tp1 = TYPEID { $obj = tp1.getText();if($temp_line_no==-1){$temp_line_no=$tp1.value.get(0).lineNo;}}
+		| ob1 = OBJECTID { $obj = ob1.getText();if($temp_line_no==-1){$temp_line_no=$ob1.value.get(0).lineNo;}}
 		) 
 		AS (tp2 = TYPEID { $obj_alias = tp2.getText();}
 			| ob2 = OBJECTID { $obj_alias = ob2.getText();}
@@ -67,9 +67,43 @@ locals [String obj_alias, obj;
 			$value = new AST.alias_stat($obj, $obj_alias, $temp_line_no);
 		};
 
-classblock : CLASS TYPEID (INHERITS TYPEID)? LBRACE inClass RBRACE SEMICOLON;
+classblock returns [AST.classblock value]
+locals [String name,filename,parent;
+	ArrayList<AST.feature> a;
+	int temp_line_no=-1;]
+@init{
+	$name="";
+	$filename="";
+	$parent="";
+	$a=new ArrayList<>();
+}
+: (cl = CLASS{ $name = cl.getText();if($temp_line_no==-1){$temp_line_no=$cl.value.get(0).lineNo;}})
+  (tp1 = TYPEID{ $filename = tp1.getText();if($temp_line_no==-1){$temp_line_no=$tp1.value.get(0).lineNo;}})
+  (INHERITS (tp2 = TYPEID{$parent=tp2.getText();}))? 
+  LBRACE 
+  (inc = inClass{$a.add($inc.value);if($temp_line_no==-1){$temp_line_no=$a.value.get(0).lineNo;}}) 
+  RBRACE 
+  SEMICOLON
+  {
+  	$value= new AST.classblock($name,$filename,$parent,$inc.value,$temp_line_no);
+  };
 
-inClass : (access_specifier? declaration | method)+;
+inClass returns [AST.inclass value]
+locals[ArrayList<AST.access_specifier> a;
+	ArrayList<AST.declaration>b;
+	ArrayList<AST.method> c; 
+	int temp_line_no = -1;]
+@init{
+	$a = new ArrayList<>();
+	$b = new ArrayList<>();
+        $c = new ArrayList<>();
+}
+: ((acc = access_specifier{$a.add($acc.value);if($temp_line_no==-1){$temp_line_no=$acc.value.get(0).lineNo;}})? 
+    de = declaration{$b.add($de.value);if($temp_line_no==-1){$temp_line_no=$de.value.get(0).lineNo;}} 
+    | me = method{$c.add($me.value);if($temp_line_no==-1){$temp_line_no=$me.value.get(0).lineNo;}})+;
+    {
+    	$value=new AST.inClass($acc.value, $de.value, $me.value, $temp_line_no)
+    };
 
 declaration: TYPEID init_declarator_list SEMICOLON ;
 
