@@ -69,7 +69,7 @@ locals [String obj_alias, obj;
 
 classblock returns [AST.classblock value]
 locals [String name,filename,parent;
-	ArrayList<AST.feature> a;
+	ArrayList<AST.inClass> a;
 	int temp_line_no=-1;]
 @init{
 	$name="";
@@ -96,7 +96,7 @@ locals[ArrayList<AST.access_specifier> a;
 @init{
 	$a = new ArrayList<>();
 	$b = new ArrayList<>();
-        $c = new ArrayList<>();
+    $c = new ArrayList<>();
 }
 : ((acc = access_specifier{$a.add($acc.value);if($temp_line_no==-1){$temp_line_no=$acc.value.get(0).lineNo;}})? 
     de = declaration{$b.add($de.value);if($temp_line_no==-1){$temp_line_no=$de.value.get(0).lineNo;}} 
@@ -105,8 +105,21 @@ locals[ArrayList<AST.access_specifier> a;
     	$value=new AST.inClass($acc.value, $de.value, $me.value, $temp_line_no)
     };
 
-declaration: TYPEID init_declarator_list SEMICOLON ;
-
+declaration returns [AST.declaration value]
+locals[ArrayList<AST.init_declarator> a;
+        String name;
+        int temp_line_no = -1;]
+ @init{
+	$a = new ArrayList<>();
+	$name="";
+ }
+ : (tp1 = TYPEID{ $filename = tp1.getText();if($temp_line_no==-1){$temp_line_no=$tp1.value.get(0).lineNo;}})
+ (init = init_declarator{$a.add($int.value);if($temp_line_no==-1){$temp_line_no=$int.value.get(0).lineNo;}}) 
+ SEMICOLON
+ {
+   $value= new AST.declaration($init.value,$name,$temp_line_no);
+ } ;
+ 
 declaration_list : declaration+ ;
 
 init_declarator_list
