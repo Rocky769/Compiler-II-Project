@@ -136,6 +136,7 @@ public class ASTPool{
           visitor.visit(this);
       }
   }
+
   public static class declaration extends ASTNode{
       public List<init_declarator> initdeclarator;
       String name;
@@ -152,4 +153,21 @@ public class ASTPool{
           visitor.visit(this);
       }
   }
+
+  public static class expression extends ASTNode {
+    public String type;
+    public expression(){
+        type = "_no_type";
+    }
+    String getString(String space){
+        return "";
+    };
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+  }
+  
+
+  
 }
+

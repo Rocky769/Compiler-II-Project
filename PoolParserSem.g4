@@ -10,7 +10,7 @@ options { tokenVocab=PoolLexer; }
     public void setFilename(String f){
         filename = f;
     }
-}
+}access_specifie
 
 // program : (import_stat | alias_stat)* (classblock)+;
 
@@ -122,8 +122,11 @@ locals[ArrayList<AST.init_declarator> a;
  
 declaration_list : declaration+ ;
 
-init_declarator_list
-	: init_declarator
+init_declarator_list returns [List<AST.init_declarator> value]
+@init {
+	value = new List<>();
+}
+	: ind = init_declarator {$value.add(ind.value)}
 	| init_declarator_list COMMA init_declarator
 	;
 
