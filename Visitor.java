@@ -216,5 +216,53 @@ public class Visitor extends PoolParserBaseVisitor<String> {
         }
     }
 
-    
+    @Override public String visitProgram(PoolParser.ProgramContext ctx) {
+    	visitChildren(ctx); 
+    	return "";
+    }
+
+   	@Override public String visitImport_stat(PoolParser.Import_statContext ctx) {
+   		//visitChildren(ctx); 
+   		if(ctx.TYPEID() == null) {
+   			if(ctx.OBJECTID(1) == null)
+   				Global.imports.put(ctx.OBJECTID(0).getText(), ctx.OBJECTID(0).getText());
+   			else
+   				Global.imports.put(ctx.OBJECTID(1).getText(), ctx.OBJECTID(0).getText());   				
+   		}
+   		else {
+   			if(ctx.OBJECTID(1) == null)
+   				Global.imports.put(ctx.TYPEID().getText(), ctx.TYPEID().getText());
+   			else
+   				Global.imports.put(ctx.OBJECTID(1).getText(), ctx.TYPEID().getText());   	
+   		}
+   		return "";
+       }
+       
+    @Override public String visitAlias_stat(PoolParser.Alias_statContext ctx) {
+        //visitChildren(ctx); 
+        if(ctx.TYPEID(0)==null){
+            if(ctx.TYPEID(1)==null){
+                Global.imports.put(ctx.OBJECTID(1).getText(), ctx.OBJECTID(0).getText());
+            }
+            else{
+                Global.imports.put(ctx.TYPEID(1).getText(), ctx.OBJECTID(0).getText());
+            }
+        }
+        else{
+            if(ctx.OBJECTID(1)==null){
+                Global.imports.put(ctx.TYPEID(1).getText(), ctx.TYPEID(0).getText());
+            }else{
+                Global.imports.put(ctx.OBJECTID(1).getText(), ctx.TYPEID(0).getText());
+            }
+        }
+        return "";
+    }
+
+	@Override public String visitClassblock(PoolParser.ClassblockContext ctx) {
+        //visitChildren(ctx);
+        Global.inheritanceGraph.addClass(ctx.TYPEID(0),ctx.TYPEID(1));
+        visitInClass(ctx.inClass());
+        return "";
+	}
+
 }
