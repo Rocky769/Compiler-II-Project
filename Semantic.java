@@ -25,29 +25,17 @@ public class Semantic{
 		return errorFlag;
 	}
 
-	public Semantic(AST.program program){
+	public Semantic(PoolParser.ProgramContext program){
 		Global.errorReporter = new ErrorReporter() {
 			@Override
 			public void report(String filename, int lineNo, String error) {
 				reportError(filename, lineNo, error);
 			}
 		};
-		Visitor visitor = new VisitorImpl();
-		program.accept(visitor);
-	}
-		
-
-	public Semantic(AST.program program){
-		//Write Semantic analyzer code here
-		
 		Visitor visitor = new Visitor();
-
-		visitor.checkInheritance(program);
-		visitor.createAdjacencyList();
-		visitor.detectCycles();
-
-		program.accept(visitor);
+		visitor.visitProgram(program);
 		errorFlag = visitor.getErrorFlag();
 	}
+	
 
 }

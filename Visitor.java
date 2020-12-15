@@ -55,17 +55,17 @@ public class Visitor extends PoolParserBaseVisitor<String> {
         //visitChildren(ctx); 
         if(ctx.TYPEID(0)==null){
             if(ctx.TYPEID(1)==null){
-                Global.imports.put(ctx.OBJECTID(1).getText(), ctx.OBJECTID(0).getText());
+                Global.aliases.put(ctx.OBJECTID(1).getText(), ctx.OBJECTID(0).getText());
             }
             else{
-                Global.imports.put(ctx.TYPEID(1).getText(), ctx.OBJECTID(0).getText());
+                Global.aliases.put(ctx.TYPEID(1).getText(), ctx.OBJECTID(0).getText());
             }
         }
         else{
             if(ctx.OBJECTID(1)==null){
-                Global.imports.put(ctx.TYPEID(1).getText(), ctx.TYPEID(0).getText());
+                Global.aliases.put(ctx.TYPEID(1).getText(), ctx.TYPEID(0).getText());
             }else{
-                Global.imports.put(ctx.OBJECTID(1).getText(), ctx.TYPEID(0).getText());
+                Global.aliases.put(ctx.OBJECTID(1).getText(), ctx.TYPEID(0).getText());
             }
         }
         return "";
@@ -73,9 +73,17 @@ public class Visitor extends PoolParserBaseVisitor<String> {
 
 	@Override public String visitClassblock(PoolParser.ClassblockContext ctx) {
         //visitChildren(ctx);
-        Global.inheritanceGraph.addClass(ctx.TYPEID(0),ctx.TYPEID(1));
+        Global.inheritanceGraph.addClass(ctx.TYPEID(0),ctx.TYPEID(1));//add this class TYPEID(0) whose parent is TYPEID(1)
         visitInClass(ctx.inClass());
         return "";
 	}
+
+    @Override public String visitInClass(PoolParser.InClassContext ctx) {
+
+    };
+
+    @Override public T visitDeclaration(PoolParser.DeclarationContext ctx) { 
+        //return visitChildren(ctx); 
+    }
 
 }
