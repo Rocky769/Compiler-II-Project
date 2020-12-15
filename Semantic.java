@@ -25,7 +25,16 @@ public class Semantic{
 		return errorFlag;
 	}
 
-
+	public Semantic(AST.program program){
+		Global.errorReporter = new ErrorReporter() {
+			@Override
+			public void report(String filename, int lineNo, String error) {
+				reportError(filename, lineNo, error);
+			}
+		};
+		Visitor visitor = new VisitorImpl();
+		program.accept(visitor);
+	}
 		
 
 	public Semantic(AST.program program){

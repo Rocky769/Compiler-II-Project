@@ -45,7 +45,7 @@ direct_declarator
 	: OBJECTID
 	| LPAREN declarator RPAREN
 	| direct_declarator LSQUARE const_expr? RSQUARE
-	| direct_declarator LPAREN (parameter_list | identifier_list)? RPAREN
+//	| direct_declarator LPAREN (parameter_list | identifier_list)? RPAREN
 	;
 
 pointer

@@ -29,7 +29,7 @@ public class Global {
     // mapped with their type: variable_name -> Type
     public static ScopeTable<String> scopeTable;
 
-    // Constains all functions defined in inhetiance tree
+    // Contains all functions defined in inhetiance tree
     // mapped with their mangled name: function_name -> type_mangled_function_name
     public static ScopeTable<String> methodDefinitionScopeTable;
 
@@ -38,6 +38,8 @@ public class Global {
     public static Map<String,String> mangledNameMap;
     
     public static Map<String,String> imports;
+
+    public static Map<String,String> aliases;
     // Used while visiting the AST classes
     // Should be updated when we start parsing a class
     public static String currentClass;
