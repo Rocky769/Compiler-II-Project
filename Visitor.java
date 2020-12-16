@@ -79,11 +79,55 @@ public class Visitor extends PoolParserBaseVisitor<String> {
 	}
 
     @Override public String visitInClass(PoolParser.InClassContext ctx) {
-
+        //(access_specifier? declaration | method)+;
     };
 
-    @Override public T visitDeclaration(PoolParser.DeclarationContext ctx) { 
+    @Override public String visitDeclaration(PoolParser.DeclarationContext ctx) { 
         //return visitChildren(ctx); 
+    }
+	@Override public String visitExpression(PoolParser.ExpressionContext ctx) {
+         //visitChildren(ctx); 
+         if(ctx.expression() == null)
+            visitAssignment_expr(ctx.assignment_expr());
+         else {
+            visitExpression(ctx.expression());
+            visitExpression(ctx.assignment_expr());
+         }
+         return "";
+    }
+    @Override public String visitEquality_expr(PoolParser.Equality_exprContext ctx) {
+          //visitChildren(ctx); 
+          if(ctx.TEQUALS() != null) {
+              if(visitEquality_expr(ctx.equality_expr()) != visitRelational_expr(ctx.relational_expr()))
+                return "False";//raise syntax error
+              else {
+                  return "True";
+              }
+          }
+          return "";
+        }
+    @Override public String visitPrimary_expr(PoolParser.Primary_exprContext ctx) { 
+        if(ctx.INT_CONST() != null) {
+            return "Int";
+        }
+        if(ctx.OBJECTID() != null) {
+            return Global.scopeTable.lookUpLocal(ctx.OBJECTID());
+        }
+        if(ctx.FLOAT_CONST() != null) {
+            return "Float";
+        }
+        if(ctx.STR_CONST() != null) {
+            return "String";
+        }
+        if(ctx.BOOL_CONST() != null) {
+            return "Bool";
+        }
+        if(ctx.CHAR_CONST() != null) {
+            return "Char";
+        }
+        else {
+            return visitExpression(ctx.expression());
+        }
     }
 
 }

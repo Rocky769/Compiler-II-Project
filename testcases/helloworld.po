@@ -1,0 +1,6 @@
+import io;
+class Main{
+	public void main(){
+		print("Hello World!");
+	};
+};

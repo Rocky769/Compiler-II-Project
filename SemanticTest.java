@@ -85,7 +85,7 @@ public class SemanticTest {
 		PoolParser parser = new PoolParser(tokens);
 		parser.removeErrorListeners();
 		parser.addErrorListener(new ParserError(Paths.get(filename).getFileName().toString()));
-		parser.setFilename(Paths.get(filename).getFileName().toString());
+		//parser.setFilename(Paths.get(filename).getFileName().toString());
 
 		PoolParser.ProgramContext prog = null;
 		try{
@@ -128,7 +128,7 @@ public class SemanticTest {
 			String errorMessage="";
 			if(filename!=null){
 				if(offendingSymbol instanceof CommonToken){
-					errorMessage += "\""+filename+"\", line "+line+": syntax error at or near ";
+					errorMessage += "\""+filename+"\" : syntax error at or near line "+line;
 					
 				}
 			}

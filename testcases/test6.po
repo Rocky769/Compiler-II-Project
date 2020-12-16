@@ -1,4 +1,4 @@
-import IO as io
+import IO as io;
 (#
 	PROGRAM-6.
 	Incorrect Program
